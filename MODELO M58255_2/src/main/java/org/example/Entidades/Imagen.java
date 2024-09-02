@@ -2,7 +2,6 @@ package org.example.Entidades;
 
 import lombok.Data;
 import java.util.List;
-package org.example;
 
 @Data
 public class Imagen {

@@ -13,4 +13,10 @@ public class Articulo {
     private Integer stockMaximo;
     private UnidadMedida unidadMedida;
     private List<Promocion> promociones;
+
+    public Articulo(String nombre, String imagen, double precio) {
+        this.nombre = nombre;
+        this.imagen = imagen;
+        this.precio = precio;
+    }
 }
