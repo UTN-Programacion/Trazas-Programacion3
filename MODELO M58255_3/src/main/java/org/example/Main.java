@@ -1,12 +1,21 @@
 package org.example;
 
 import org.example.Entidades.*;
+import org.example.Repositorios.InMemoryRepository;
 
 import java.net.UnixDomainSocketAddress;
+import java.util.List;
 import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
+        //Repositorios Relevantes que podrian luego listarse
+        InMemoryRepository<Cliente> clienteRepository = new InMemoryRepository<>();
+        InMemoryRepository<Articulo> articuloRepository = new InMemoryRepository<>();
+        InMemoryRepository<UnidadMedida> unidadMedidaRepository = new InMemoryRepository<>();
+        InMemoryRepository<Imagenes> imagenesRepository = new InMemoryRepository<>();
+        InMemoryRepository<Pedido> pedidoRepository = new InMemoryRepository<>();
+
         Cliente cliente1 = Cliente.builder()
                 .nombre("Juan")
                 .apellido("Perez")
@@ -153,18 +162,32 @@ public class Main {
                 .imagen(imagen8)
                 .build();
 
-        /***
-         * -	,,El cliente1, realiza un pedido de una Pizza grande y una cerveza Quilmes.
-         * -	,,Mostrar por consola los datos del pedido del cliente, las líneas del detalle de pedido y el total a pagar.
-         * -	El cliente2 realiza la compra de la 3 cervezas Quilmes y una Pizza Hawaiana chica.
-         * -	Mostrar por consola el pedido y detalle para que el cliente2 sepa cuánto deberá pagar
-         * -	El cliente3 compra 1 Pizza grande Hawaiana , 1 pizza chica Muzza , 1 grande Napolitana y 2 cervezas Andes.
-         * -	Mostrar por consola el pedido del cliente 3 y su total par apagar.
-         * -	El cliente 1 en otro día realiza un pedido de 1 muzza chica y una cerveza Andes.
-         * -	Mostrar por consola el pedido realizado por el cliente1 y el total de la compra
-         * -	Mostar por consola la cantidad de veces que el cliente 1 compró en el local.
-         * -	Mostrar todos los artículos que comercializa el negocio
-         */
+        //Repositorios
+        clienteRepository.save(cliente1);
+        clienteRepository.save(cliente2);
+        clienteRepository.save(cliente3);
+
+        unidadMedidaRepository.save(porciones8);
+        unidadMedidaRepository.save(porciones4);
+        unidadMedidaRepository.save(litro);
+
+        imagenesRepository.save(imagen1);
+        imagenesRepository.save(imagen2);
+        imagenesRepository.save(imagen3);
+        imagenesRepository.save(imagen4);
+        imagenesRepository.save(imagen5);
+        imagenesRepository.save(imagen6);
+        imagenesRepository.save(imagen7);
+        imagenesRepository.save(imagen8);
+
+        articuloRepository.save(pizzaGrandeHawaiana);
+        articuloRepository.save(pizzaChicaHawaiana);
+        articuloRepository.save(pizzaGrandeNapolitana);
+        articuloRepository.save(pizzaChicaNapolitana);
+        articuloRepository.save(pizzaGrandeMuzza);
+        articuloRepository.save(pizzaChicaMuzza);
+        articuloRepository.save(cervezaAndes);
+        articuloRepository.save(cervezaQuilmes);
 
         //Cliente 1
         DetallePedido detallePedido1 = DetallePedido.builder()
@@ -179,9 +202,6 @@ public class Main {
                 .build();
         Pedido pedido1 = Pedido.builder()
                 .cliente(cliente1)
-//                .estado(Estado.PENDIENTE)
-//                .formaPago(FormaPago.EFECTIVO)
-//                .tipoEnvio(TipoEnvio.RETIRO_LOCAL)
                 .fechaPedido(java.time.LocalDate.now())
                 .horaEstimadaFinalizacion(java.time.LocalTime.now())
                 .total(detallePedido1.getSubTotal() + detallePedido2.getSubTotal())
@@ -309,19 +329,21 @@ public class Main {
                 "\nTotal a pagar: " + pedido4.getTotal() +
                 "\n/////////////////////////////" );
 
+        //Repositorio Pedidos
+        pedidoRepository.save(pedido1);
+        pedidoRepository.save(pedido2);
+        pedidoRepository.save(pedido3);
+        pedidoRepository.save(pedido4);
+
         //Cliente 1 cantidad de veces que compró
         System.out.println("El cliente " + cliente1.getNombre() + " compró " + cliente1.getHace().size() + " veces");
         System.out.println("/////////////////////////////");
 
         //Artículos
-        System.out.println("Artículos: " +
-                "\n" + pizzaGrandeHawaiana.getDenominacion() +
-                "\n" + pizzaChicaHawaiana.getDenominacion() +
-                "\n" + pizzaGrandeNapolitana.getDenominacion() +
-                "\n" + pizzaChicaNapolitana.getDenominacion() +
-                "\n" + pizzaGrandeMuzza.getDenominacion() +
-                "\n" + pizzaChicaMuzza.getDenominacion() +
-                "\n" + cervezaAndes.getDenominacion() +
-                "\n" + cervezaQuilmes.getDenominacion());
+        List<Articulo> articulos = articuloRepository.findAll();
+        System.out.println("Artículos disponibles: ");
+        for (Articulo articulo : articulos) {
+            System.out.println(articulo.getId()+ " - " + articulo.getDenominacion());
+        }
     }
 }
