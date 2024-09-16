@@ -1,23 +1,31 @@
 package org.example.Entidades;
-import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-//@Entity
+import javax.persistence.*;
+
+import lombok.*;
+
+
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
 @Builder
-public class Promocion  {
+
+
+
+public class Promocion {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
     private String denominacion;
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
@@ -27,28 +35,18 @@ public class Promocion  {
     private Double precioPromocional;
     @Enumerated(EnumType.STRING)
     private TipoPromocion tipoPromocion;
+    private List<Articulo> articulos;
+    private Imagen imagen;
 
-
-
-    //  @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-
-//    @{1:MULTICHOICE_S:=OneToMany~OneToOne~ManyToOne~ManyToMany} (cascade = {1:MULTICHOICE_S:{CascadeType.PERSIST , CascadeType.MERGE\}~=CascadeType.ALL~CascadeType.REFRESH~CascadeType.REMOVE~CascadeType.DETACHED~CascadeType.PERSIST~CascadeType.MERGE }")
-    @ToString.Exclude
-    @JoinTable(name = "promocion_articulo",
-            joinColumns = @JoinColumn(name = "promocion_id"),
-            inverseJoinColumns = @JoinColumn(name = "articulo_id"))
-
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+   //ToString.Exclude
+   //JoinTable(name = "promocion_articulo"),JoinColumns=@JoinColumn(name="Promocion_id");
     @Builder.Default
-    private Set<Articulo> articulos = new HashSet<>();
+    private Set<Articulo>articulo = new HashSet<>();
 
     @OneToMany
-
     @JoinColumn(name = "imagen_id")
-
     @Builder.Default
-
-    private Set<Imagen> promoImagen = new HashSet<>();
-
-
+    private Set<Imagen>promoImagen = new HashSet<>();
 
 }

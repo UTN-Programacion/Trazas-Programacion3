@@ -1,13 +1,21 @@
 package org.example.Entidades;
-import lombok.Data;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.*;
 
-@Data
+import lombok.*;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@ToString
+@Builder
+
 public class Articulo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,19 +25,25 @@ public class Articulo {
     private Double precioCompra;
     private Integer stockActual;
     private Integer stockMaximo;
-    private UnidadMedida unidadMedida;
-    private List<Promocion> promociones;
+    private String codigo;
 
-//    @OneToOne
+    private List<Promocion> promociones;
+    @Enumerated(EnumType.STRING)
+    private TipoPromocion tipoPromocion;
+
+   
     @JoinColumn(name = "imagen_id")
     private Imagen imagen;
 
-    protected Set<Imagen> imagenes = new HashSet<>();
+    protected Set<Imagen> imagenes=new HashSet<>();
 
-    @ManyToOne
+  /*  @ManyToOne
     protected UnidadMedida unidadMedida;
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
+   */
 
+    @ManyToOne
+    @JoinColumn(name = "unidad_id")
     private UnidadMedida unidadMedida;
+
+
 }

@@ -1,14 +1,23 @@
 package org.example.Entidades;
 
-import lombok.Data;
+import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.List;
+
+import lombok.*;
 
 
-@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@ToString
+@Builder
+
 public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
